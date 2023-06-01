@@ -1,0 +1,74 @@
+{
+  "name": "nx-microservice-playground",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/nx-microservice-playground/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/nx-microservice-playground",
+        "main": "apps/nx-microservice-playground/src/main.ts",
+        "tsConfig": "apps/nx-microservice-playground/tsconfig.app.json",
+        "assets": [
+          "apps/nx-microservice-playground/src/assets"
+        ],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/nx-microservice-playground/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "nx-microservice-playground:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nx-microservice-playground:build:development"
+        },
+        "production": {
+          "buildTarget": "nx-microservice-playground:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/nx-microservice-playground/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/nx-microservice-playground/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
